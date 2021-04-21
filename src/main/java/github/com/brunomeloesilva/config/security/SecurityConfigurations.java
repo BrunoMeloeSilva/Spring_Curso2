@@ -1,13 +1,16 @@
 package github.com.brunomeloesilva.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -29,8 +32,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
-		.anyRequest().authenticated() //Para os demais recursos, tem de autenticar
-		.and().formLogin(); //O spring tem um formulário padrão, com um controller interno para receber requests de autenticação
+		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.anyRequest().authenticated() 
+		.and().csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 	//Configuracoes de recursos estaticos, js, css, imagens, etc..
@@ -38,12 +43,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	public void configure(WebSecurity web) throws Exception {
 	}
 	
-	
-	
-	/*Só para gerar minha senha de testes com BCrypt
-	public static void main(String[] args) {
-		System.out.println(new BCryptPasswordEncoder().encode("123456"));
+	@Override
+	@Bean	
+	protected AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
 	}
-	Saída: $2a$10$rmBpkF74yCt9p1vNULdpgeudzRtakVAatfB/Fhann2ZZkcjQXFYwW
-	*/
 }
