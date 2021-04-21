@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import github.com.brunomeloesilva.config.security.TokenService;
+import github.com.brunomeloesilva.controller.dto.TokenDto;
 import github.com.brunomeloesilva.controller.form.LoginForm;
 
 @RestController
@@ -26,7 +27,7 @@ public class AutenticacaoController {
 	private TokenService TokenService;
 	
 	@PostMapping
-	public ResponseEntity<Void> autenticar(@RequestBody @Valid LoginForm loginForm) {
+	public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm loginForm) {
 		
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginForm.getEmail(), loginForm.getSenha());
 		
@@ -35,9 +36,7 @@ public class AutenticacaoController {
 			Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 			String token = TokenService.gerarToken(authenticate);
 			
-			System.out.println(token);
-			
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 			
 		} catch(AuthenticationException ex) {
 			return ResponseEntity.badRequest().build();
