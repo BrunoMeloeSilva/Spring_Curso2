@@ -20,6 +20,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private AutenticacaoService autenticacaoService;
+	@Autowired
+	private TokenService tokenService;
 	
 	//Configuracoes de autenticacao, controle de acesso, login, etc..
 	@Override
@@ -37,7 +39,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.anyRequest().authenticated() 
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	//Configuracoes de recursos estaticos, js, css, imagens, etc..
