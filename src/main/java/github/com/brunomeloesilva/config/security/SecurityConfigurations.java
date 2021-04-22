@@ -42,6 +42,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //Não liberar em produção
 		.antMatchers(HttpMethod.GET, "/swagger-ui").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR") //No banco de dados o nome do perfil deve ser ROLE_MODERADOR, mas aqui se usa sem o prefixo.
 		.anyRequest().authenticated() 
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
