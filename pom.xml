@@ -16,8 +16,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Spring_Curso2</name>
 	<description>Spring Boot API Rest: Segurança da API, Cache e Monitoramento</description>
-	<!-- Para dizer que quero gerar um WAR ao invés do JAR -->
-	<packaging>war</packaging>
 	
 	<properties>
 		<java.version>16</java.version>
@@ -90,12 +88,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<!-- Para dizer que o tomcat será provido, não precisa inserir as dependencias dele no build. -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
