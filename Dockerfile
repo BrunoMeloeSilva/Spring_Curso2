@@ -9,4 +9,4 @@ ARG JAR_FILE=target/*.jar
 # Copia o .jar acima, para o SO criado, com o nome app.jar
 COPY ${JAR_FILE} app.jar
 # Comando a ser executado no Container
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xmx512m","-Dserver.port=${PORT}","-jar","/app.jar"]
