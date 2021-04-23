@@ -1,5 +1,5 @@
 # Baixando um Sistema Operacional
-FROM openjdk:8-jdk-alpine
+FROM openjdk:16-jdk-alpine
 # No SO baixado acima, criando um usuário e senha
 RUN addgroup -S spring && adduser -S spring -G spring
 # Seta o usuário acima, a ser usado no SO
